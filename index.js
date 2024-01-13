@@ -12,6 +12,7 @@ const readFile = (filepath) => {
   } catch (err) {
     console.error(CONSOLE_TEXT_COLOR.red, `Error reading ${filepath}`);
     console.error(CONSOLE_TEXT_COLOR.red, 'No such file or directory');
+    return err;
   }
 };
 
@@ -23,7 +24,7 @@ const parseFile = (filepath) => {
   return parser(string);
 };
 
-function getFilesDiff(filepath1, filepath2, format = 'stylish') {
+function getFilesDiff(filepath1, filepath2, format) {
   const data1 = parseFile(filepath1);
   const data2 = parseFile(filepath2);
 
