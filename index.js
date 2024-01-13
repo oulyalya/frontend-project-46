@@ -19,14 +19,22 @@ const readFile = (filepath) => {
 const parseFile = (filepath) => {
   const fileExtension = path.extname(filepath);
   const parser = getParser(fileExtension);
-  const string = readFile(filepath);
 
-  return parser(string);
+  try {
+    const string = readFile(filepath);
+    return parser(string);
+  } catch (err) {
+    return null;
+  }
 };
 
 function getFilesDiff(filepath1, filepath2, format) {
   const data1 = parseFile(filepath1);
   const data2 = parseFile(filepath2);
+
+  if (!data1 || !data2) {
+    return;
+  }
 
   return genDiff(data1, data2, format);
 }
