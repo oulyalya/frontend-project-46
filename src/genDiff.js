@@ -9,11 +9,10 @@ const genDiff = (data1, data2, format) => {
 
   const formatResult = getFormatter(format);
 
-  const makeDiffLine = (key, state, oldVal, newVal) => (
-    {
-      key, state, oldVal, newVal,
-    }
-  );
+  const makeDiffLine = (key, state, oldVal, newVal) => {
+    const diffLinaData = { key, state, oldVal, newVal };
+    return diffLinaData;
+  };
 
   const buildDiff = (obj1, obj2) => sortedKeys.map((key) => {
     if (!_.has(obj1, key)) {
