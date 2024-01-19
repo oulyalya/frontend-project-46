@@ -14,6 +14,8 @@ program
     console.log(
       getFilesDiff(filepath1, filepath2, options.format),
     );
+    
+    return;
   });
 
 program.parse();

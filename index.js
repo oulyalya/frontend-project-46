@@ -28,7 +28,7 @@ const parseFile = (filepath) => {
   }
 };
 
-function getFilesDiff(filepath1, filepath2, format = 'stylish') {
+function getFilesDiff(filepath1, filepath2, format = 'stylish') {  // format: plain, stylish, json
   const data1 = parseFile(filepath1);
   const data2 = parseFile(filepath2);
 

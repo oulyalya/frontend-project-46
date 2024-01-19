@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { STATES } from './consts.js'; // ADDED, REMOVED, UNCHANGED, UPDATED
 import getFormatter from './formatters/formatters.js';
 
-const genDiff = (data1, data2, format) => {
+const genDiff = (data1, data2, format) => { // format: plain, stylish, json
   const keys1 = Object.keys(data1);
   const keys2 = Object.keys(data2);
   const sortedKeys = [...new Set([...keys1, ...keys2])].sort();
