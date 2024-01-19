@@ -10,7 +10,9 @@ const genDiff = (data1, data2, format) => { // format: plain, stylish, json
   const formatResult = getFormatter(format);
 
   const makeDiffLine = (key, state, oldVal, newVal) => {
-    const diffLinaData = { key, state, oldVal, newVal };
+    const diffLinaData = {
+      key, state, oldVal, newVal,
+    };
     return diffLinaData;
   };
 

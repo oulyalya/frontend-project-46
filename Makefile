@@ -10,8 +10,14 @@ lint:
 test:
 	npm test
 
+test-watch:
+	npm test -- --watch
+
 gendiff:
 	bin/gendiff.js
 
 publish:
 	npm publish --dry-run
+
+help:
+	gendiff -h

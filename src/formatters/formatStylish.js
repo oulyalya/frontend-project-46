@@ -1,20 +1,23 @@
 import {
-  STATES, CONSOLE_COLOR_RED, CONSOLE_COLOR_GREEN,
+  STATES, //  CONSOLE_COLOR_RED, CONSOLE_COLOR_GREEN,
 } from '../consts.js'; // ADDED, REMOVED, UNCHANGED, UPDATED
 
 const formatStylish = (arr, replacer = '    ', spacesCount = 1, depth = 1) => {
   const indentSize = spacesCount * depth;
 
   const indentDefault = `${replacer.repeat(indentSize)}`;
-  const indentAdded = `${replacer.repeat(indentSize).slice(0, -2)}${CONSOLE_COLOR_GREEN('+')} `;
-  const indentRemoved = `${replacer.repeat(indentSize).slice(0, -2)}${CONSOLE_COLOR_RED('-')} `;
+  const indentAdded = `${(replacer.repeat(indentSize).slice(0, -2))}+ `;
+  // const indentAdded = CONSOLE_COLOR_GREEN(`${(replacer.repeat(indentSize).slice(0, -2))}+ `);
+  const indentRemoved = `${(replacer.repeat(indentSize).slice(0, -2))}- `;
+  // const indentRemoved = CONSOLE_COLOR_RED(`${(replacer.repeat(indentSize).slice(0, -2))}- `);
   const indentBracket = `${replacer.repeat(indentSize - spacesCount)}`;
 
   const formatLine = (line) => {
-    let result = [];
+    const result = [];
 
-    const { key, state, oldVal, newVal } = line;
-
+    const {
+      key, state, oldVal, newVal,
+    } = line;
 
     const strOld = `${key}: ${oldVal}`;
     const strNew = `${key}: ${newVal}`;
@@ -31,6 +34,7 @@ const formatStylish = (arr, replacer = '    ', spacesCount = 1, depth = 1) => {
         result.push(`${indentAdded}${strNew}`);
         break;
       case STATES.UNCHANGED:
+      default:
         result.push(`${indentDefault}${strOld}`);
         break;
     }
