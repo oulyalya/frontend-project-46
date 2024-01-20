@@ -1,15 +1,17 @@
 import {
-  STATES, //  CONSOLE_COLOR_RED, CONSOLE_COLOR_GREEN,
+  STATES, CONSOLE_COLOR_RED, CONSOLE_COLOR_GREEN,
 } from '../consts.js'; // ADDED, REMOVED, UNCHANGED, UPDATED
 
-const formatStylish = (arr, replacer = '    ', spacesCount = 1, depth = 1) => {
+const formatStylish = (arr, isColorCoded) => {
+  const replacer = '    ';
+  const spacesCount = 1;
+  const depth = 1;
+
   const indentSize = spacesCount * depth;
 
   const indentDefault = `${replacer.repeat(indentSize)}`;
-  const indentAdded = `${(replacer.repeat(indentSize).slice(0, -2))}+ `;
-  // const indentAdded = CONSOLE_COLOR_GREEN(`${(replacer.repeat(indentSize).slice(0, -2))}+ `);
-  const indentRemoved = `${(replacer.repeat(indentSize).slice(0, -2))}- `;
-  // const indentRemoved = CONSOLE_COLOR_RED(`${(replacer.repeat(indentSize).slice(0, -2))}- `);
+  const indentAdded = CONSOLE_COLOR_GREEN(`${(indentDefault.slice(0, -2))}+ `, isColorCoded);
+  const indentRemoved = CONSOLE_COLOR_RED(`${(indentDefault.slice(0, -2))}- `, isColorCoded);
   const indentBracket = `${replacer.repeat(indentSize - spacesCount)}`;
 
   const formatLine = (line) => {
@@ -42,7 +44,7 @@ const formatStylish = (arr, replacer = '    ', spacesCount = 1, depth = 1) => {
     return result;
   };
 
-  const formattedLines = arr.flatMap((el) => formatLine(el));
+  const formattedLines = arr.flatMap((strObj) => formatLine(strObj));
 
   return [
     `${indentBracket}{`,

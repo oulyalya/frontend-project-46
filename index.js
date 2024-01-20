@@ -28,7 +28,7 @@ const parseFile = (filepath) => {
   }
 };
 
-function getFilesDiff(filepath1, filepath2, format = 'stylish') { // format: plain, stylish, json
+function getFilesDiff(filepath1, filepath2, format = 'plain', isColorCoded = false) { // format: plain, stylish, json
   const data1 = parseFile(filepath1);
   const data2 = parseFile(filepath2);
 
@@ -36,7 +36,7 @@ function getFilesDiff(filepath1, filepath2, format = 'stylish') { // format: pla
     return;
   }
 
-  console.log(genDiff(data1, data2, format));
+  console.log(genDiff(data1, data2, format, isColorCoded));
 }
 
 export default getFilesDiff;

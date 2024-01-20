@@ -9,10 +9,11 @@ program
   .version('1.0.0')
   .arguments('<filepath1> <filepath2>')
   .option('-f, --format <type>', 'output format')
+  .option('-c, --color', 'enable color coding')
   .helpOption('-h, --help', 'output usage information')
   .action((filepath1, filepath2, options) => {
     console.log(
-      getFilesDiff(filepath1, filepath2, options.format),
+      getFilesDiff(filepath1, filepath2, options.format, options.color),
     );
   });
 
