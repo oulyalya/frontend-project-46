@@ -38,7 +38,6 @@ export const CONSOLE_COLOR_WHITE = (str, isColorCoded) => {
   return `\x1b[37m${str}\x1b[0m`;
 };
 
-
 export const STATES = {
   ADDED: 'added',
   REMOVED: 'removed',

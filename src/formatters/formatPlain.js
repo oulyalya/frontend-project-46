@@ -2,7 +2,9 @@ import {
   STATES, CONSOLE_COLOR_RED, CONSOLE_COLOR_GREEN, CONSOLE_COLOR_YELLOW,
 } from '../consts.js'; // ADDED, REMOVED, UNCHANGED, UPDATED
 
-const formatString = ({key, state, oldVal, newVal}, isColorCoded) => {
+const formatString = ({
+  key, state, oldVal, newVal,
+}, isColorCoded) => {
   switch (state) {
     case STATES.ADDED:
       return `Property '${CONSOLE_COLOR_GREEN(key, isColorCoded)}' was ${CONSOLE_COLOR_GREEN(state, isColorCoded)} with value: ${CONSOLE_COLOR_GREEN(newVal, isColorCoded)}`;
