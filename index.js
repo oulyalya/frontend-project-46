@@ -10,8 +10,8 @@ const readFile = (filepath) => {
   try {
     return readFileSync(getAbsolutePath(filepath), 'utf-8');
   } catch (err) {
-    console.error(CONSOLE_TEXT_COLOR.red, `Error reading ${filepath}`);
-    console.error(CONSOLE_TEXT_COLOR.red, 'No such file or directory');
+    console.log(CONSOLE_TEXT_COLOR.red, `Error reading ${filepath}`);
+    console.log(CONSOLE_TEXT_COLOR.red, 'No such file or directory');
     return err;
   }
 };
@@ -33,10 +33,11 @@ function getFilesDiff(filepath1, filepath2, format = 'stylish', isColorCoded = f
   const data2 = parseFile(filepath2);
 
   if (!data1 || !data2) {
-    return;
+    return null;
   }
 
-  console.log(genDiff(data1, data2, format, isColorCoded));
+  const diff = genDiff(data1, data2, format, isColorCoded);
+  return diff;
 }
 
 export default getFilesDiff;
