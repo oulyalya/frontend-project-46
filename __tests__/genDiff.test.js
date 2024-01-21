@@ -1,3 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint no-underscore-dangle: 0 */
+
+import { test, expect } from '@jest/globals';
 import { readFileSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -55,7 +59,7 @@ const diff21 = `{
 }`;
 
 test.each([
-  jsonFilename1, jsonFilename2, yamlFilename1, yamlFilename2
+  jsonFilename1, jsonFilename2, yamlFilename1, yamlFilename2,
 ])('test reading fixtures: %s', (filename) => {
   const fn = () => {
     console.log(readFile(filename));
