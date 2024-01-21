@@ -3,11 +3,11 @@ import formatStylish from './formatStylish.js';
 
 const getFormatter = (type) => {
   switch (type) {
-    case 'stylish':
-      return formatStylish;
     case 'plain':
-    default:
       return formatPlain;
+    case 'stylish':
+    default:
+      return formatStylish;
   }
 };
 

@@ -28,7 +28,7 @@ const parseFile = (filepath) => {
   }
 };
 
-function getFilesDiff(filepath1, filepath2, format = 'plain', isColorCoded = false) { // format: plain, stylish, json
+function getFilesDiff(filepath1, filepath2, format = 'stylish', isColorCoded = false) { // format: plain, stylish, json
   const data1 = parseFile(filepath1);
   const data2 = parseFile(filepath2);
 
