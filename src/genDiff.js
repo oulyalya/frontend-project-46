@@ -1,5 +1,4 @@
-// import _, { get, isObject, values } from 'lodash';
-import { STATES } from './consts.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
+import STATES from './consts.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
 import getFormatter from './formatters/index.js';
 import { isObject, getKeys } from './utils.js';
 

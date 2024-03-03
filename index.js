@@ -2,7 +2,7 @@ import path from 'path';
 import { readFileSync } from 'fs';
 import genDiff from './src/genDiff.js';
 import getParser from './src/parsers.js';
-import { CONSOLE_TEXT_COLOR } from './src/consts.js';
+import { CONSOLE_TEXT_COLOR } from './src/colorCoding.js';
 
 const getAbsolutePath = (filepath) => path.resolve(process.cwd(), filepath);
 

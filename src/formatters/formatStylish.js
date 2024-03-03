@@ -1,7 +1,6 @@
+import STATES from '../consts.js';
 import { isObject } from '../utils.js';
-import {
-  STATES, LOG_RED, LOG_GREEN,
-} from '../consts.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
+import { LOG_RED, LOG_GREEN } from '../colorCoding.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
 
 const formatStylish = (arr, isColorCoded) => {
   const replacer = ' ';
