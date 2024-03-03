@@ -8,7 +8,7 @@ lint:
 	npx eslint .
 
 lint-fix:
-	npx eslint --fix --ext .js, .jsx .
+	npx eslint --fix --ext .js,.jsx .
 
 test:
 	npm test
