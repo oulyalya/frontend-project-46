@@ -1,17 +1,17 @@
 import {
-  STATES, CONSOLE_COLOR_RED, CONSOLE_COLOR_GREEN, CONSOLE_COLOR_YELLOW,
-} from '../consts.js'; // ADDED, REMOVED, UNCHANGED, UPDATED
+  STATES, LOG_RED, LOG_GREEN, LOG_YELLOW,
+} from '../consts.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
 
 const formatString = ({
   key, state, oldVal, newVal,
 }, isColorCoded) => {
   switch (state) {
     case STATES.ADDED:
-      return `Property '${CONSOLE_COLOR_GREEN(key, isColorCoded)}' was ${CONSOLE_COLOR_GREEN(state, isColorCoded)} with value: ${CONSOLE_COLOR_GREEN(newVal, isColorCoded)}`;
+      return `Property '${LOG_GREEN(key, isColorCoded)}' was ${LOG_GREEN(state, isColorCoded)} with value: ${LOG_GREEN(newVal, isColorCoded)}`;
     case STATES.REMOVED:
-      return `Property '${CONSOLE_COLOR_RED(key, isColorCoded)}' was ${CONSOLE_COLOR_RED(state, isColorCoded)}`;
+      return `Property '${LOG_RED(key, isColorCoded)}' was ${LOG_RED(state, isColorCoded)}`;
     case STATES.UPDATED:
-      return `Property '${CONSOLE_COLOR_YELLOW(key, isColorCoded)}' was ${CONSOLE_COLOR_YELLOW(state, isColorCoded)}. From ${CONSOLE_COLOR_YELLOW(oldVal)} to ${CONSOLE_COLOR_YELLOW(newVal, isColorCoded)}`;
+      return `Property '${LOG_YELLOW(key, isColorCoded)}' was ${LOG_YELLOW(state, isColorCoded)}. From ${LOG_YELLOW(oldVal)} to ${LOG_YELLOW(newVal, isColorCoded)}`;
     case STATES.UNCHANGED:
     default:
       return '';

@@ -1,38 +1,48 @@
-import _ from 'lodash';
-import { STATES } from './consts.js'; // ADDED, REMOVED, UNCHANGED, UPDATED
-import getFormatter from './formatters/formatters.js';
+// import _, { get, isObject, values } from 'lodash';
+import { STATES } from './consts.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
+import getFormatter from './formatters/index.js';
+import { isObject, getKeys } from './utils.js';
 
-const genDiff = (data1, data2, format, isColorCoded) => { // format: plain, stylish, json
-  const keys1 = Object.keys(data1);
-  const keys2 = Object.keys(data2);
-  const sortedKeys = [...new Set([...keys1, ...keys2])].sort();
+const buildDiffTree = (data1, data2) => {
+  const sortedKeys = getKeys(data1, data2);
 
-  const formatResult = getFormatter(format);
+  const diffs = sortedKeys.map((key) => {
+    const val1 = data1[key];
+    const val2 = data2[key];
 
-  const makeDiffLine = (key, state, oldVal, newVal) => {
-    const diffLinaData = {
-      key, state, oldVal, newVal,
+    if (isObject(val1) && isObject(val2)) {
+      return { key, state: STATES.NESTED, children: buildDiffTree(val1, val2) };
+    }
+
+    if (!Object.hasOwn(data1, key)) {
+      return {
+        key, state: STATES.ADDED, oldVal: null, newVal: val2,
+      };
+    }
+
+    if (!Object.hasOwn(data2, key)) {
+      return {
+        key, state: STATES.REMOVED, oldVal: val1, newVal: null,
+      };
+    }
+
+    if (val1 === val2) {
+      return {
+        key, state: STATES.UNCHANGED, oldVal: val1, newVal: val2,
+      };
+    }
+
+    return {
+      key, state: STATES.UPDATED, oldVal: val1, newVal: val2,
     };
-    return diffLinaData;
-  };
-
-  const buildDiff = (obj1, obj2) => sortedKeys.map((key) => {
-    if (!_.has(obj1, key)) {
-      return makeDiffLine(key, STATES.ADDED, null, obj2[key]);
-    }
-
-    if (!_.has(obj2, key)) {
-      return makeDiffLine(key, STATES.REMOVED, obj1[key], null);
-    }
-
-    if (obj1[key] !== obj2[key]) {
-      return makeDiffLine(key, STATES.UPDATED, obj1[key], obj2[key]);
-    }
-
-    return makeDiffLine(key, STATES.UNCHANGED, obj1[key], obj2[key]);
   });
 
-  const diff = buildDiff(data1, data2);
+  return diffs;
+};
+
+const genDiff = (data1, data2, format, isColorCoded) => { // format: plain, stylish, json
+  const formatResult = getFormatter(format);
+  const diff = buildDiffTree(data1, data2);
 
   return formatResult(diff, isColorCoded);
 };

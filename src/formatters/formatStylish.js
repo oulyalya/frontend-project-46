@@ -1,55 +1,108 @@
+import { isObject } from '../utils.js';
 import {
-  STATES, CONSOLE_COLOR_RED, CONSOLE_COLOR_GREEN,
-} from '../consts.js'; // ADDED, REMOVED, UNCHANGED, UPDATED
+  STATES, LOG_RED, LOG_GREEN,
+} from '../consts.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
 
 const formatStylish = (arr, isColorCoded) => {
-  const replacer = '    ';
-  const spacesCount = 1;
-  const depth = 1;
+  const replacer = ' ';
+  const spacesCount = 4;
 
-  const indentSize = spacesCount * depth;
+  const IndentTypes = {
+    ADDED: 'added',
+    REMOVED: 'removed',
+    BRACKET: 'bracket',
+    DEFAULT: 'default',
+  };
 
-  const indentDefault = `${replacer.repeat(indentSize)}`;
-  const indentAdded = CONSOLE_COLOR_GREEN(`${(indentDefault.slice(0, -2))}+ `, isColorCoded);
-  const indentRemoved = CONSOLE_COLOR_RED(`${(indentDefault.slice(0, -2))}- `, isColorCoded);
-  const indentBracket = `${replacer.repeat(indentSize - spacesCount)}`;
+  const getIndent = (depth, type) => {
+    const indentSize = depth * spacesCount;
+    const indentDefault = `${replacer.repeat(indentSize)}`;
 
-  const formatLine = (line) => {
+    switch (type) {
+      case IndentTypes.ADDED:
+        return LOG_GREEN(`${(indentDefault.slice(0, -2))}+ `, isColorCoded);
+      case IndentTypes.REMOVED:
+        return LOG_RED(`${(indentDefault.slice(0, -2))}- `, isColorCoded);
+      case IndentTypes.BRACKET:
+        return replacer.repeat(indentSize - spacesCount);
+      case IndentTypes.DEFAULT:
+      default:
+        return indentDefault;
+    }
+  };
+
+  const stringify = (value, parentDepth = 1) => {
+    const iter = (currentValue, depth) => {
+      if (!isObject(currentValue)) {
+        return `${currentValue}`;
+      }
+
+      const lines = Object
+        .entries(currentValue)
+        .map(([key, val]) => `${getIndent(depth)}${key}: ${iter(val, depth + 1)}`);
+
+      return [
+        '{',
+        ...lines,
+        `${getIndent(depth, IndentTypes.BRACKET)}}`,
+      ].join('\n');
+    };
+
+    return iter(value, parentDepth);
+  };
+
+  const formatLine = (lineObj, depth) => {
     const result = [];
 
     const {
       key, state, oldVal, newVal,
-    } = line;
+    } = lineObj;
 
-    const strOld = `${key}: ${oldVal}`;
-    const strNew = `${key}: ${newVal}`;
+    const strOld = `${key}: ${stringify(oldVal, depth + 1)}`;
+    const strNew = `${key}: ${stringify(newVal, depth + 1)}`;
 
     switch (state) {
       case STATES.ADDED:
-        result.push(`${indentAdded}${strNew}`);
+        result.push(`${getIndent(depth, IndentTypes.ADDED)}${strNew}`);
         break;
       case STATES.REMOVED:
-        result.push(`${indentRemoved}${strOld}`);
+        result.push(`${getIndent(depth, IndentTypes.REMOVED)}${strOld}`);
         break;
       case STATES.UPDATED:
-        result.push(`${indentRemoved}${strOld}`);
-        result.push(`${indentAdded}${strNew}`);
+        result.push(`${getIndent(depth, IndentTypes.REMOVED)}${strOld}`);
+        result.push(`${getIndent(depth, IndentTypes.ADDED)}${strNew}`);
         break;
       case STATES.UNCHANGED:
       default:
-        result.push(`${indentDefault}${strOld}`);
+        result.push(`${getIndent(depth)}${strOld}`);
         break;
     }
 
     return result;
   };
 
-  const formattedLines = arr.flatMap((strObj) => formatLine(strObj));
+  const getDiffString = (diffArr, depth) => {
+    const res = diffArr.map((el) => {
+      const { key, state, children } = el;
+
+      if (state === STATES.NESTED && Array.isArray(children)) {
+        return [
+          `${getIndent(depth)}${key}: {`,
+          ...getDiffString(children, depth + 1),
+          `${getIndent(depth)}}`,
+        ].join('\n');
+      }
+
+      return formatLine(el, depth).join('\n');
+    });
+
+    return res;
+  };
 
   return [
-    `${indentBracket}{`,
-    ...formattedLines,
-    `${indentBracket}}`,
+    '{',
+    ...getDiffString(arr, 1),
+    '}',
   ].join('\n');
 };
 
