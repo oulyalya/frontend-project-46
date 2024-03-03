@@ -25,4 +25,11 @@ gendiff <filepath1> <filepath2> -format <type>
 
 ## Usage example
 
-[![asciicast](https://asciinema.org/a/RgXBavztzL396Ngeb2bLto8M6.svg)](https://asciinema.org/a/RgXBavztzL396Ngeb2bLto8M6)
+### Help
+[![asciicast](https://asciinema.org/a/plkxbnC9KRovPxul8Q78PJGlD.svg)](https://asciinema.org/a/plkxbnC9KRovPxul8Q78PJGlD)
+
+### Default output
+[![asciicast](https://asciinema.org/a/ysLezRRD1yXSadqoLU29F80mz.svg)](https://asciinema.org/a/ysLezRRD1yXSadqoLU29F80mz)
+
+### Color coded output
+[![asciicast](https://asciinema.org/a/dnKAtsrvMauAtMv9a236y8DRf.svg)](https://asciinema.org/a/dnKAtsrvMauAtMv9a236y8DRf)
