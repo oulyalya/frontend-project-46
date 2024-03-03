@@ -48,14 +48,15 @@ test.skip.each([
   expect(actual).toBe(expected);
 });
 
-test.skip.each([
-  [jsonFilename1, jsonFilename2, 'json'],
-  [yamlFilename1, yamlFilename2, 'json'],
-  [jsonFilename1, yamlFilename2, 'json'],
-  [yamlFilename1, jsonFilename2, 'json'],
+test.each([
+  [jsonFilename1, jsonFilename2, 'json', jsonDiffFilename],
+  [yamlFilename1, yamlFilename2, 'json', jsonDiffFilename],
+  [jsonFilename1, yamlFilename2, 'json', jsonDiffFilename],
+  [yamlFilename1, jsonFilename2, 'json', jsonDiffFilename],
 ])('test getFilesDiff(%s, %s) "%s"', (filename1, filename2, formatName, diffFilename) => {
-  const actual = true;
-  const expected = true;
+  const expected = readFile(diffFilename).trim();
+  const actual = getFilesDiff(getFixturePath(filename1), getFixturePath(filename2), formatName)
+    .trim();
 
   expect(actual).toBe(expected);
 });
