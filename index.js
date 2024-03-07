@@ -36,8 +36,7 @@ function getFilesDiff(filepath1, filepath2, format = 'stylish', isColorCoded = f
     return null;
   }
 
-  const diff = genDiff(data1, data2, format, isColorCoded);
-  return diff;
+  return genDiff(data1, data2, format, isColorCoded);
 }
 
 export default getFilesDiff;

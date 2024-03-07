@@ -1,6 +1,6 @@
 import STATES from '../consts.js';
 import { isObject } from '../utils.js';
-import { LOG_RED, LOG_GREEN } from '../colorCoding.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
+import { COLOR_LOG } from '../colorCoding.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
 
 const formatStylish = (arr, isColorCoded) => {
   const replacer = ' ';
@@ -17,17 +17,25 @@ const formatStylish = (arr, isColorCoded) => {
     const indentSize = depth * spacesCount;
     const indentDefault = `${replacer.repeat(indentSize)}`;
 
+    let result;
+
     switch (type) {
       case IndentTypes.ADDED:
-        return LOG_GREEN(`${(indentDefault.slice(0, -2))}+ `, isColorCoded);
+        result = COLOR_LOG(`${(indentDefault.slice(0, -2))}+ `, 'green', isColorCoded);
+        break;
       case IndentTypes.REMOVED:
-        return LOG_RED(`${(indentDefault.slice(0, -2))}- `, isColorCoded);
+        result = COLOR_LOG(`${(indentDefault.slice(0, -2))}- `, 'red', isColorCoded);
+        break;
       case IndentTypes.BRACKET:
-        return replacer.repeat(indentSize - spacesCount);
+        result = replacer.repeat(indentSize - spacesCount);
+        break;
       case IndentTypes.DEFAULT:
       default:
-        return indentDefault;
+        result = indentDefault;
+        break;
     }
+
+    return result;
   };
 
   const stringify = (value, parentDepth = 1) => {
@@ -80,8 +88,8 @@ const formatStylish = (arr, isColorCoded) => {
     return result;
   };
 
-  const getDiffString = (diffArr, depth) => {
-    const res = diffArr.map((el) => {
+  const getDiffString = (diffArr, depth) => diffArr
+    .map((el) => {
       const { key, state, children } = el;
 
       if (state === STATES.NESTED && Array.isArray(children)) {
@@ -94,9 +102,6 @@ const formatStylish = (arr, isColorCoded) => {
 
       return formatLine(el, depth).join('\n');
     });
-
-    return res;
-  };
 
   return [
     '{',

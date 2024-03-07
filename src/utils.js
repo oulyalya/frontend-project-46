@@ -10,6 +10,5 @@ export const getKeys = (...objs) => {
     return [];
   }).flat();
 
-  const sortedKeys = [...new Set([...keys])].sort();
-  return sortedKeys;
+  return [...new Set([...keys])].sort();
 };

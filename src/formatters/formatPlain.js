@@ -1,7 +1,5 @@
 import STATES from '../consts.js';
-import {
-  LOG_RED, LOG_GREEN, LOG_YELLOW,
-} from '../colorCoding.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
+import { COLOR_LOG } from '../colorCoding.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
 
 const stringify = (val) => {
   switch (typeof val) {
@@ -26,31 +24,35 @@ const formatDiff = (diffArr, isColorCoded) => {
     } = line;
     const currentPath = getPath([path, key]);
 
+    let result;
+
     switch (state) {
       case STATES.NESTED:
         return iter(line.children, currentPath);
       case STATES.ADDED:
-        return `Property '${LOG_GREEN(currentPath, isColorCoded)}' was ${LOG_GREEN(state, isColorCoded)} with value: ${LOG_GREEN(stringify(newVal), isColorCoded)}`;
+        result = `Property '${COLOR_LOG(currentPath, 'green', isColorCoded)}' was ${COLOR_LOG(state, 'green', isColorCoded)} with value: ${COLOR_LOG(stringify(newVal), 'green', isColorCoded)}`;
+        break;
       case STATES.REMOVED:
-        return `Property '${LOG_RED(currentPath, isColorCoded)}' was ${LOG_RED(state, isColorCoded)}`;
+        result = `Property '${COLOR_LOG(currentPath, 'red', isColorCoded)}' was ${COLOR_LOG(state, 'red', isColorCoded)}`;
+        break;
       case STATES.UPDATED:
-        return `Property '${LOG_YELLOW(currentPath, isColorCoded)}' was ${LOG_YELLOW(state, isColorCoded)}. From ${LOG_YELLOW(stringify(oldVal), isColorCoded)} to ${LOG_YELLOW(stringify(newVal), isColorCoded)}`;
+        result = `Property '${COLOR_LOG(currentPath, 'yellow', isColorCoded)}' was ${COLOR_LOG(state, isColorCoded)}. From ${COLOR_LOG(stringify(oldVal), 'yellow', isColorCoded)} to ${COLOR_LOG(stringify(newVal), 'yellow', isColorCoded)}`;
+        break;
       case STATES.UNCHANGED:
       default:
-        return '';
+        result = '';
+        break;
     }
+
+    return result;
   });
 
   return iter(diffArr, []);
 };
 
-const formatPlain = (arr, isColorCoded) => {
-  const string = formatDiff(arr, isColorCoded)
-    .flat(Infinity)
-    .filter((el) => el !== '')
-    .join('\n');
-
-  return string;
-};
+const formatPlain = (arr, isColorCoded) => formatDiff(arr, isColorCoded)
+  .flat(Infinity)
+  .filter((el) => el !== '')
+  .join('\n');
 
 export default formatPlain;
