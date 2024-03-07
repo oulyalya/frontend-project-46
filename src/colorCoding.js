@@ -12,31 +12,12 @@ export const COLOR_LOG = (str, color, isColorCoded) => {
     case 'red':
       result = `\x1b[31m${str}\x1b[0m`;
       break;
-
     case 'green':
       result = `\x1b[32m${str}\x1b[0m`;
       break;
-
     case 'yellow':
       result = `\x1b[33m${str}\x1b[0m`;
       break;
-
-    case 'navy':
-      result = `\x1b[34m${str}\x1b[0m`;
-      break;
-
-    case 'purple':
-      result = `\x1b[35m${str}\x1b[0m`;
-      break;
-
-    case 'blue':
-      result = `\x1b[36m${str}\x1b[0m`;
-      break;
-
-    case 'white':
-      result = `\x1b[37m${str}\x1b[0m`;
-      break;
-
     default:
       result = str;
       break;
