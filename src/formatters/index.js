@@ -1,9 +1,9 @@
 import formatPlain from './formatPlain.js';
 import formatStylish from './formatStylish.js';
-import { LOG_RED } from '../colorCoding.js';
+import { COLOR_LOG } from '../colorCoding.js';
 
 const getFormatter = (type) => {
-  const message = LOG_RED(`Unsupported format ${type}`, true);
+  const message = COLOR_LOG(`Unsupported format ${type}`, 'red', true);
 
   switch (type) {
     case 'stylish':
