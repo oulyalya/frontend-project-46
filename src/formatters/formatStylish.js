@@ -2,42 +2,42 @@ import STATES from '../consts.js';
 import { isObject } from '../utils.js';
 import { COLOR_LOG } from '../colorCoding.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
 
+const replacer = ' ';
+const spacesCount = 4;
+
+const IndentTypes = {
+  ADDED: 'added',
+  REMOVED: 'removed',
+  BRACKET: 'bracket',
+  DEFAULT: 'default',
+};
+
+const getIndent = (depth, type, isColorCoded) => {
+  const indentSize = depth * spacesCount;
+  const indentDefault = `${replacer.repeat(indentSize)}`;
+
+  let result;
+
+  switch (type) {
+    case IndentTypes.ADDED:
+      result = COLOR_LOG(`${(indentDefault.slice(0, -2))}+ `, 'green', isColorCoded);
+      break;
+    case IndentTypes.REMOVED:
+      result = COLOR_LOG(`${(indentDefault.slice(0, -2))}- `, 'red', isColorCoded);
+      break;
+    case IndentTypes.BRACKET:
+      result = replacer.repeat(indentSize - spacesCount);
+      break;
+    case IndentTypes.DEFAULT:
+    default:
+      result = indentDefault;
+      break;
+  }
+
+  return result;
+};
+
 const formatStylish = (arr, isColorCoded) => {
-  const replacer = ' ';
-  const spacesCount = 4;
-
-  const IndentTypes = {
-    ADDED: 'added',
-    REMOVED: 'removed',
-    BRACKET: 'bracket',
-    DEFAULT: 'default',
-  };
-
-  const getIndent = (depth, type) => {
-    const indentSize = depth * spacesCount;
-    const indentDefault = `${replacer.repeat(indentSize)}`;
-
-    let result;
-
-    switch (type) {
-      case IndentTypes.ADDED:
-        result = COLOR_LOG(`${(indentDefault.slice(0, -2))}+ `, 'green', isColorCoded);
-        break;
-      case IndentTypes.REMOVED:
-        result = COLOR_LOG(`${(indentDefault.slice(0, -2))}- `, 'red', isColorCoded);
-        break;
-      case IndentTypes.BRACKET:
-        result = replacer.repeat(indentSize - spacesCount);
-        break;
-      case IndentTypes.DEFAULT:
-      default:
-        result = indentDefault;
-        break;
-    }
-
-    return result;
-  };
-
   const stringify = (value, parentDepth = 1) => {
     const iter = (currentValue, depth) => {
       if (!isObject(currentValue)) {
@@ -51,7 +51,7 @@ const formatStylish = (arr, isColorCoded) => {
       return [
         '{',
         ...lines,
-        `${getIndent(depth, IndentTypes.BRACKET)}}`,
+        `${getIndent(depth, IndentTypes.BRACKET, isColorCoded)}}`,
       ].join('\n');
     };
 
@@ -70,18 +70,18 @@ const formatStylish = (arr, isColorCoded) => {
 
     switch (state) {
       case STATES.ADDED:
-        result.push(`${getIndent(depth, IndentTypes.ADDED)}${strNew}`);
+        result.push(`${getIndent(depth, IndentTypes.ADDED, isColorCoded)}${strNew}`);
         break;
       case STATES.REMOVED:
-        result.push(`${getIndent(depth, IndentTypes.REMOVED)}${strOld}`);
+        result.push(`${getIndent(depth, IndentTypes.REMOVED, isColorCoded)}${strOld}`);
         break;
       case STATES.UPDATED:
-        result.push(`${getIndent(depth, IndentTypes.REMOVED)}${strOld}`);
-        result.push(`${getIndent(depth, IndentTypes.ADDED)}${strNew}`);
+        result.push(`${getIndent(depth, IndentTypes.REMOVED, isColorCoded)}${strOld}`);
+        result.push(`${getIndent(depth, IndentTypes.ADDED, isColorCoded)}${strNew}`);
         break;
       case STATES.UNCHANGED:
       default:
-        result.push(`${getIndent(depth)}${strOld}`);
+        result.push(`${getIndent(depth, '', isColorCoded)}${strOld}`);
         break;
     }
 
@@ -94,9 +94,9 @@ const formatStylish = (arr, isColorCoded) => {
 
       if (state === STATES.NESTED && Array.isArray(children)) {
         return [
-          `${getIndent(depth)}${key}: {`,
+          `${getIndent(depth, '', isColorCoded)}${key}: {`,
           ...getDiffString(children, depth + 1),
-          `${getIndent(depth)}}`,
+          `${getIndent(depth, '', isColorCoded)}}`,
         ].join('\n');
       }
 
