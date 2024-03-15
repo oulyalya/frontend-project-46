@@ -14,6 +14,7 @@ test:
 	npm test
 
 check:
+	make lint-fix
 	make lint
 	make test
 
