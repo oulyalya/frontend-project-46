@@ -8,5 +8,6 @@ export const getKeys = (obj1, obj2) => {
   const keys1 = isObject(obj1) ? Object.keys(obj1) : [];
   const keys2 = isObject(obj2) ? Object.keys(obj2) : [];
 
-  return [...new Set([...keys1, ...keys2])].sort();
+  const uniqueKeys = [...new Set([...keys1, ...keys2])];
+  return uniqueKeys.sort();
 };

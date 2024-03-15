@@ -51,8 +51,6 @@ const formatStylish = (arr, isColorCoded) => {
   };
 
   const formatLine = (lineObj, depth) => {
-    const result = [];
-
     const {
       key, state, oldVal, newVal,
     } = lineObj;
@@ -62,22 +60,18 @@ const formatStylish = (arr, isColorCoded) => {
 
     switch (state) {
       case STATES.ADDED:
-        result.push(`${getIndent(depth, IndentTypes.ADDED, isColorCoded)}${strNew}`);
-        break;
+        return [`${getIndent(depth, IndentTypes.ADDED, isColorCoded)}${strNew}`];
       case STATES.REMOVED:
-        result.push(`${getIndent(depth, IndentTypes.REMOVED, isColorCoded)}${strOld}`);
-        break;
+        return [`${getIndent(depth, IndentTypes.REMOVED, isColorCoded)}${strOld}`];
       case STATES.UPDATED:
-        result.push(`${getIndent(depth, IndentTypes.REMOVED, isColorCoded)}${strOld}`);
-        result.push(`${getIndent(depth, IndentTypes.ADDED, isColorCoded)}${strNew}`);
-        break;
+        return [
+          `${getIndent(depth, IndentTypes.REMOVED, isColorCoded)}${strOld}`,
+          `${getIndent(depth, IndentTypes.ADDED, isColorCoded)}${strNew}`,
+        ];
       case STATES.UNCHANGED:
       default:
-        result.push(`${getIndent(depth, '', isColorCoded)}${strOld}`);
-        break;
+        return [`${getIndent(depth, '', isColorCoded)}${strOld}`];
     }
-
-    return result;
   };
 
   const getDiffString = (diffArr, depth) => diffArr

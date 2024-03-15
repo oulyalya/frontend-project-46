@@ -16,10 +16,6 @@ const stylishDiffFilename = 'res_file1-file2_stylish.txt';
 const plainDiffFilename = 'res_file1-file2_plain.txt';
 const jsonDiffFilename = 'res_file1-file2_json.txt';
 
-const stylishDiffColoredFilename = 'res_file1-file2_stylish_colored.txt';
-const plainDiffColoredFilename = 'res_file1-file2_plain_colored.txt';
-const jsonDiffColoredFilename = 'res_file1-file2_json_colored.txt';
-
 const getFixturePath = (filename) => path.resolve(process.cwd(), '__fixtures__', filename);
 const readFile = (filename) => readFileSync(getFixturePath(filename), 'utf-8');
 
@@ -30,7 +26,7 @@ test.each([
   [yamlFilename1, jsonFilename2, 'plain', plainDiffFilename],
   [jsonFilename1, yamlFilename2, 'json', jsonDiffFilename],
   [yamlFilename1, jsonFilename2, 'json', jsonDiffFilename],
-])('test getFilesDiff(%s, %s) "%s"', (filename1, filename2, formatName, diffFilename) => {
+])('getFilesDiff(%s, %s) "%s"', (filename1, filename2, formatName, diffFilename) => {
   const expected = readFile(diffFilename).trim();
   const actual = getFilesDiff(getFixturePath(filename1), getFixturePath(filename2), formatName)
     .trim();

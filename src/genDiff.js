@@ -6,25 +6,23 @@ const getState = (data1, data2, key) => {
   const val1 = data1[key];
   const val2 = data2[key];
 
-  let state = STATES.UPDATED;
-
   if (isObject(val1) && isObject(val2)) {
-    state = STATES.NESTED;
+    return STATES.NESTED;
   }
 
   if (!Object.hasOwn(data1, key)) {
-    state = STATES.ADDED;
+    return STATES.ADDED;
   }
 
   if (!Object.hasOwn(data2, key)) {
-    state = STATES.REMOVED;
+    return STATES.REMOVED;
   }
 
   if (val1 === val2) {
-    state = STATES.UNCHANGED;
+    return STATES.UNCHANGED;
   }
 
-  return state;
+  return STATES.UPDATED;
 };
 
 const buildDiffTree = (data1, data2) => {
@@ -35,37 +33,32 @@ const buildDiffTree = (data1, data2) => {
     const val2 = data2[key];
 
     const state = getState(data1, data2, key);
-    let diffLine;
 
     if (state === STATES.NESTED) {
       return { key, state, children: buildDiffTree(val1, val2) };
     }
 
     if (state === STATES.ADDED) {
-      diffLine = {
+      return {
         key, state, oldVal: null, newVal: val2,
       };
     }
 
     if (state === STATES.REMOVED) {
-      diffLine = {
+      return {
         key, state, oldVal: val1, newVal: null,
       };
     }
 
     if (state === STATES.UNCHANGED) {
-      diffLine = {
+      return {
         key, state, oldVal: val1, newVal: val2,
       };
     }
 
-    if (state === STATES.UPDATED) {
-      diffLine = {
-        key, state, oldVal: val1, newVal: val2,
-      };
-    }
-
-    return diffLine;
+    return {
+      key, state, oldVal: val1, newVal: val2,
+    };
   });
 
   return diffs;
