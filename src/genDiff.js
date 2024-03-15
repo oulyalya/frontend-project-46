@@ -71,7 +71,7 @@ const buildDiffTree = (data1, data2) => {
   return diffs;
 };
 
-const genDiff = (data1, data2, { format, isColorCoded }) => { // format: plain, stylish, json
+const genDiff = (data1, data2, format, isColorCoded) => { // format: plain, stylish, json
   const formatResult = getFormatter(format);
   const diff = buildDiffTree(data1, data2);
 

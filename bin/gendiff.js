@@ -12,11 +12,7 @@ program
   .option('-c, --color', 'enable color coding')
   .helpOption('-h, --help', 'output usage information')
   .action((filepath1, filepath2, options) => {
-    const diff = getFilesDiff(
-      filepath1,
-      filepath2,
-      { format: options.format, isColorCoded: options.color },
-    );
+    const diff = getFilesDiff(filepath1, filepath2, options.format, options.color);
     console.log(diff);
   });
 
