@@ -13,6 +13,10 @@ lint-fix:
 test:
 	npm test
 
+check:
+	make lint
+	make test
+
 test-watch:
 	npm test -- --watch
 
