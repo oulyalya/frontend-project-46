@@ -4,11 +4,9 @@ export const isObject = (el) => (
     && !Array.isArray(el)
 );
 
-export const getKeys = (...objs) => {
-  const keys = objs.map((obj) => {
-    if (isObject(obj)) return Object.keys(obj);
-    return [];
-  }).flat();
+export const getKeys = (obj1, obj2) => {
+  const keys1 = isObject(obj1) ? Object.keys(obj1) : [];
+  const keys2 = isObject(obj2) ? Object.keys(obj2) : [];
 
-  return [...new Set([...keys])].sort();
+  return [...new Set([...keys1, ...keys2])].sort();
 };

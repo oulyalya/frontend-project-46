@@ -24,27 +24,19 @@ const formatDiff = (diffArr, isColorCoded) => {
     } = line;
     const currentPath = getPath([path, key]);
 
-    let result;
-
     switch (state) {
       case STATES.NESTED:
         return iter(line.children, currentPath);
       case STATES.ADDED:
-        result = `Property '${COLOR_LOG(currentPath, 'green', isColorCoded)}' was ${COLOR_LOG(state, 'green', isColorCoded)} with value: ${COLOR_LOG(stringify(newVal), 'green', isColorCoded)}`;
-        break;
+        return `Property '${COLOR_LOG(currentPath, 'green', isColorCoded)}' was ${COLOR_LOG(state, 'green', isColorCoded)} with value: ${COLOR_LOG(stringify(newVal), 'green', isColorCoded)}`;
       case STATES.REMOVED:
-        result = `Property '${COLOR_LOG(currentPath, 'red', isColorCoded)}' was ${COLOR_LOG(state, 'red', isColorCoded)}`;
-        break;
+        return `Property '${COLOR_LOG(currentPath, 'red', isColorCoded)}' was ${COLOR_LOG(state, 'red', isColorCoded)}`;
       case STATES.UPDATED:
-        result = `Property '${COLOR_LOG(currentPath, 'yellow', isColorCoded)}' was ${COLOR_LOG(state, isColorCoded)}. From ${COLOR_LOG(stringify(oldVal), 'yellow', isColorCoded)} to ${COLOR_LOG(stringify(newVal), 'yellow', isColorCoded)}`;
-        break;
+        return `Property '${COLOR_LOG(currentPath, 'yellow', isColorCoded)}' was ${COLOR_LOG(state, isColorCoded)}. From ${COLOR_LOG(stringify(oldVal), 'yellow', isColorCoded)} to ${COLOR_LOG(stringify(newVal), 'yellow', isColorCoded)}`;
       case STATES.UNCHANGED:
       default:
-        result = '';
-        break;
+        return '';
     }
-
-    return result;
   });
 
   return iter(diffArr, []);

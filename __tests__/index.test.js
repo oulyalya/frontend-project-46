@@ -37,20 +37,3 @@ test.each([
 
   expect(actual).toBe(expected);
 });
-
-test.skip.each([
-  // [jsonFilename1, jsonFilename2, 'stylish', stylishDiffColoredFilename],
-  // [yamlFilename1, yamlFilename2, 'stylish', stylishDiffColoredFilename],
-  [jsonFilename1, yamlFilename2, 'plain', plainDiffColoredFilename],
-  [yamlFilename1, jsonFilename2, 'plain', plainDiffColoredFilename],
-])('test color coded getFilesDiff(%s, %s) "%s"', (filename1, filename2, formatName, diffFilename, isColored = true) => {
-  const expected = readFile(diffFilename).trim();
-  const actual = getFilesDiff(
-    getFixturePath(filename1),
-    getFixturePath(filename2),
-    formatName,
-    isColored,
-  ).trim();
-
-  expect(actual).toBe(expected);
-});

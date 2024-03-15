@@ -16,25 +16,17 @@ const getIndent = (depth, type, isColorCoded) => {
   const indentSize = depth * spacesCount;
   const indentDefault = `${replacer.repeat(indentSize)}`;
 
-  let result;
-
   switch (type) {
     case IndentTypes.ADDED:
-      result = COLOR_LOG(`${(indentDefault.slice(0, -2))}+ `, 'green', isColorCoded);
-      break;
+      return COLOR_LOG(`${(indentDefault.slice(0, -2))}+ `, 'green', isColorCoded);
     case IndentTypes.REMOVED:
-      result = COLOR_LOG(`${(indentDefault.slice(0, -2))}- `, 'red', isColorCoded);
-      break;
+      return COLOR_LOG(`${(indentDefault.slice(0, -2))}- `, 'red', isColorCoded);
     case IndentTypes.BRACKET:
-      result = replacer.repeat(indentSize - spacesCount);
-      break;
+      return replacer.repeat(indentSize - spacesCount);
     case IndentTypes.DEFAULT:
     default:
-      result = indentDefault;
-      break;
+      return indentDefault;
   }
-
-  return result;
 };
 
 const formatStylish = (arr, isColorCoded) => {

@@ -6,22 +6,14 @@ export const CONSOLE_TEXT_COLOR = {
 export const COLOR_LOG = (str, color, isColorCoded) => {
   if (!isColorCoded) return str;
 
-  let result;
-
   switch (color) {
     case 'red':
-      result = `\x1b[31m${str}\x1b[0m`;
-      break;
+      return `\x1b[31m${str}\x1b[0m`;
     case 'green':
-      result = `\x1b[32m${str}\x1b[0m`;
-      break;
+      return `\x1b[32m${str}\x1b[0m`;
     case 'yellow':
-      result = `\x1b[33m${str}\x1b[0m`;
-      break;
+      return `\x1b[33m${str}\x1b[0m`;
     default:
-      result = str;
-      break;
+      return str;
   }
-
-  return result;
 };
