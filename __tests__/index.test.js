@@ -32,7 +32,7 @@ test.each([
   [yamlFilename1, jsonFilename2, 'json', jsonDiffFilename],
 ])('test getFilesDiff(%s, %s) "%s"', (filename1, filename2, formatName, diffFilename) => {
   const expected = readFile(diffFilename).trim();
-  const actual = getFilesDiff(getFixturePath(filename1), getFixturePath(filename2), formatName)
+  const actual = getFilesDiff(getFixturePath(filename1), getFixturePath(filename2), {format: formatName })
     .trim();
 
   expect(actual).toBe(expected);
