@@ -1,7 +1,9 @@
+import _ from 'lodash';
+
 export const isObject = (el) => (
   typeof el === 'object'
-    && el !== null
-    && !Array.isArray(el)
+  && el !== null
+  && !Array.isArray(el)
 );
 
 export const getKeys = (obj1, obj2) => {
@@ -9,5 +11,5 @@ export const getKeys = (obj1, obj2) => {
   const keys2 = isObject(obj2) ? Object.keys(obj2) : [];
 
   const uniqueKeys = [...new Set([...keys1, ...keys2])];
-  return uniqueKeys.sort();
+  return _.sortBy(uniqueKeys);
 };
