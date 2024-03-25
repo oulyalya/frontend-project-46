@@ -19,7 +19,7 @@ Features:
 ```sh
 make install
 make help
-gendiff <filepath1> <filepath2> -format <type>
+gendiff <filepath1> <filepath2> -format <format>
 ```
 
 

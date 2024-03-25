@@ -1,4 +1,4 @@
-const STATES = {
+const TYPES = {
   ADDED: 'added',
   REMOVED: 'removed',
   UNCHANGED: 'unchanged',
@@ -6,4 +6,4 @@ const STATES = {
   NESTED: 'nested',
 };
 
-export default STATES;
+export default TYPES;

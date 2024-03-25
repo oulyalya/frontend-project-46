@@ -1,28 +1,28 @@
-import STATES from './consts.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
+import TYPES from './consts.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
 import getFormatter from './formatters/index.js';
 import { isObject, getKeys } from './utils.js';
 
-const getState = (data1, data2, key) => {
+const gettype = (data1, data2, key) => {
   const val1 = data1[key];
   const val2 = data2[key];
 
   if (isObject(val1) && isObject(val2)) {
-    return STATES.NESTED;
+    return TYPES.NESTED;
   }
 
   if (!Object.hasOwn(data1, key)) {
-    return STATES.ADDED;
+    return TYPES.ADDED;
   }
 
   if (!Object.hasOwn(data2, key)) {
-    return STATES.REMOVED;
+    return TYPES.REMOVED;
   }
 
   if (val1 === val2) {
-    return STATES.UNCHANGED;
+    return TYPES.UNCHANGED;
   }
 
-  return STATES.UPDATED;
+  return TYPES.UPDATED;
 };
 
 const buildDiffTree = (data1, data2) => {
@@ -32,32 +32,32 @@ const buildDiffTree = (data1, data2) => {
     const val1 = data1[key];
     const val2 = data2[key];
 
-    const state = getState(data1, data2, key);
+    const type = gettype(data1, data2, key);
 
-    if (state === STATES.NESTED) {
-      return { key, state, children: buildDiffTree(val1, val2) };
+    if (type === TYPES.NESTED) {
+      return { key, type, children: buildDiffTree(val1, val2) };
     }
 
-    if (state === STATES.ADDED) {
+    if (type === TYPES.ADDED) {
       return {
-        key, state, oldVal: null, newVal: val2,
+        key, type, oldVal: null, newVal: val2,
       };
     }
 
-    if (state === STATES.REMOVED) {
+    if (type === TYPES.REMOVED) {
       return {
-        key, state, oldVal: val1, newVal: null,
+        key, type, oldVal: val1, newVal: null,
       };
     }
 
-    if (state === STATES.UNCHANGED) {
+    if (type === TYPES.UNCHANGED) {
       return {
-        key, state, oldVal: val1, newVal: val2,
+        key, type, oldVal: val1, newVal: val2,
       };
     }
 
     return {
-      key, state, oldVal: val1, newVal: val2,
+      key, type, oldVal: val1, newVal: val2,
     };
   });
 

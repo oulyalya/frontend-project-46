@@ -1,4 +1,4 @@
-import STATES from '../consts.js';
+import TYPES from '../consts.js';
 import { isObject } from '../utils.js';
 import { COLOR_LOG } from '../colorCoding.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
 
@@ -52,23 +52,23 @@ const formatStylish = (arr, isColorCoded) => {
 
   const formatLine = (lineObj, depth) => {
     const {
-      key, state, oldVal, newVal,
+      key, type, oldVal, newVal,
     } = lineObj;
 
     const strOld = `${key}: ${stringify(oldVal, depth + 1)}`;
     const strNew = `${key}: ${stringify(newVal, depth + 1)}`;
 
-    switch (state) {
-      case STATES.ADDED:
+    switch (type) {
+      case TYPES.ADDED:
         return [`${getIndent(depth, IndentTypes.ADDED, isColorCoded)}${strNew}`];
-      case STATES.REMOVED:
+      case TYPES.REMOVED:
         return [`${getIndent(depth, IndentTypes.REMOVED, isColorCoded)}${strOld}`];
-      case STATES.UPDATED:
+      case TYPES.UPDATED:
         return [
           `${getIndent(depth, IndentTypes.REMOVED, isColorCoded)}${strOld}`,
           `${getIndent(depth, IndentTypes.ADDED, isColorCoded)}${strNew}`,
         ];
-      case STATES.UNCHANGED:
+      case TYPES.UNCHANGED:
       default:
         return [`${getIndent(depth, '', isColorCoded)}${strOld}`];
     }
@@ -76,9 +76,9 @@ const formatStylish = (arr, isColorCoded) => {
 
   const getDiffString = (diffArr, depth) => diffArr
     .map((el) => {
-      const { key, state, children } = el;
+      const { key, type, children } = el;
 
-      if (state === STATES.NESTED && Array.isArray(children)) {
+      if (type === TYPES.NESTED && Array.isArray(children)) {
         return [
           `${getIndent(depth, '', isColorCoded)}${key}: {`,
           ...getDiffString(children, depth + 1),
