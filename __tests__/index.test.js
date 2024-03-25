@@ -5,7 +5,7 @@ import { test, expect } from '@jest/globals';
 import { readFileSync } from 'fs';
 import path from 'path';
 
-import getFilesDiff from '../index.js';
+import getFilesDiff from '../src/index.js';
 
 const jsonFilename1 = 'file1.json';
 const jsonFilename2 = 'file2.json';
