@@ -17,8 +17,8 @@ const readFile = (filepath) => {
 };
 
 const parseFile = (filepath) => {
-  const fileExtension = path.extname(filepath);
-  const parser = getParser(fileExtension);
+  const fileExtension = path.extname(filepath).slice(1);
+  const parser = getParser[fileExtension];
 
   try {
     const string = readFile(filepath);
