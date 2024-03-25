@@ -16,27 +16,33 @@ const readFile = (filepath) => {
   }
 };
 
-const parseFile = (filepath) => {
-  const fileExtension = path.extname(filepath).slice(1);
-  const parser = getParser[fileExtension];
+const getExtension = (filePath) => path.extname(filePath).slice(1);
+
+const parseData = (data, extension) => {
+  const parser = getParser[extension];
 
   try {
-    const string = readFile(filepath);
-    return parser(string);
+    return parser(data);
   } catch (err) {
     return null;
   }
 };
 
 function getFilesDiff(filepath1, filepath2, format = 'stylish', isColorCoded = false) { // format: plain, stylish, json
-  const data1 = parseFile(filepath1);
-  const data2 = parseFile(filepath2);
+  const data1 = readFile(filepath1);
+  const data2 = readFile(filepath2);
 
-  if (!data1 || !data2) {
+  const extension1 = getExtension(filepath1);
+  const extension2 = getExtension(filepath2);
+
+  const parsedData1 = parseData(data1, extension1);
+  const parsedData2 = parseData(data2, extension2);
+
+  if (!parsedData1 || !parsedData2) {
     return null;
   }
 
-  return genDiff(data1, data2, format, isColorCoded);
+  return genDiff(parsedData1, parsedData2, format, isColorCoded);
 }
 
 export default getFilesDiff;
