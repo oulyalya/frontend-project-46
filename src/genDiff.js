@@ -1,6 +1,7 @@
 import TYPES from './consts.js'; // NESTED, ADDED, REMOVED, UNCHANGED, UPDATED
 import getFormatter from './formatters/index.js';
 import { isObject, getKeys } from './utils.js';
+import { COLOR_LOG } from './colorCoding.js';
 
 const gettype = (data1, data2, key) => {
   const val1 = data1[key];
@@ -65,7 +66,10 @@ const buildDiffTree = (data1, data2) => {
 };
 
 const genDiff = (data1, data2, format, isColorCoded) => { // format: plain, stylish, json
-  const formatResult = getFormatter(format);
+  const errorMessage = COLOR_LOG(`Unsupported format ${format}`, 'red', true);
+  if (!Object.hasOwn(getFormatter, format)) throw new Error(errorMessage);
+
+  const formatResult = getFormatter[format];
   const diff = buildDiffTree(data1, data2);
 
   return formatResult(diff, isColorCoded);
